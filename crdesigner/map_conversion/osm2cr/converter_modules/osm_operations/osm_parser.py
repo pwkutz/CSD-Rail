@@ -1016,7 +1016,7 @@ def create_graph(file_path: str) -> rg.Graph:
         # get crossing nodes
         main_g, main_crossing_points = _create_graph(file_path,
                                                      _value_list(config.ACCEPTED_HIGHWAYS_MAINLAYER), combined_g.bounds)
-        logging.info("Hello")
+        # logging.info("Hello")
         logging.info("extract sub layer")
         sub_g, sub_crossing_points = _create_graph(file_path,
                                                    _value_list(config.ACCEPTED_HIGHWAYS_SUBLAYER), combined_g.bounds)

@@ -87,18 +87,20 @@ class Graph:
         """
         for node in self.nodes:
             if node.get_degree() > 1:
-                # GraphNodes ... have their edges assigned to them
-                # edges ... contains all edges of the current GraphNode "node"
+                # node ... class instance of class "GraphNodes".
+                # node.edges ... set of all edges (class "GraphEdges") which are connected to the node (class "GraphNode")
+                # list(node.edges) ... turn the set into a list
                 edges = list(node.edges)
                 for index, edge in enumerate(edges):
                     # get all edges except current viewed
                     other_edges = edges[:index] + edges[index + 1:]
                     angles = []
                     for other_edge in other_edges:
+                        # compute angle (rad) between current edge (currently focused) and other edges, referring to the current node.
                         angles.append(edge.angle_to(other_edge, node))
+                    # link ... edge with the biggest angle to the current edge.
                     link = other_edges[int(np.argmax(angles))]
-                    # get the angle between the node and link
-                    # angle between the direction link and node (corresponding the coordinate system axis)
+                    # angle ... angle (rad) between current edge and edge "link" referring to current node.
                     angle = edge.angle_to(link, node)
                     if angle > 0.9 * np.pi:
                         # successor found
@@ -413,6 +415,7 @@ class Graph:
                         and geometry.curvature(waypoints) > config.LANE_SEGMENT_ANGLE
                     ):
                         self.lanelinks.add(segment)
+
 
         self.set_adjacents()
 

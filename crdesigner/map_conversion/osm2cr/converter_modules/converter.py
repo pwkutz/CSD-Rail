@@ -42,7 +42,7 @@ def step_collection_1(file: str) -> road_graph.Graph:
 
 def step_collection_2(graph: road_graph.Graph) -> road_graph.Graph:
     logging.info("linking lanes")
-    # node has several directed edges. Link those as incoming and outgoing for each node.
+    # node has several directed edges. Link those as incoming and outgoing (connect those to one instance) for each node.
     lane_linker.link_graph(graph)
     if isinstance(graph, road_graph.SublayeredGraph):
         lane_linker.link_graph(graph.sublayer_graph)

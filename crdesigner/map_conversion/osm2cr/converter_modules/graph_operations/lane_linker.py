@@ -60,6 +60,7 @@ def find_edges_to_combine(
     """
     combine_angle_threshold = np.pi / 360.0 * 10.0
     result = []
+    # create a list "combine_with_next" of the length "len(edges)". Each element possesses the value "False"
     combine_with_next = [False] * len(edges)
     for index, edge in enumerate(edges):
         next_edge = edges[(index + 1) % len(edges)]
@@ -79,6 +80,9 @@ def find_edges_to_combine(
         if combine_with_next[(index - 1) % len(edges)]:
             pass
         elif combine_with_next[index]:
+            # CombinedEdge ... there are two edges with an angle "< combined_angle_threshold". Both edges get taken as one
+            # An edge possesses only one direction. Defined by edge.node1 and edge.node2.
+            # CombinedEdge gets used to define a road with lanes going into both directions (not oneway). Typical street.
             result.append(CombinedEdge(this_edge, next_edge, node))
         else:
             result.append(this_edge)
@@ -977,6 +981,8 @@ def link_graph(graph: rg.Graph):
     for node in graph.nodes:
         # edges are sorted counterclockwise
         edges = sorted(node.edges, key=lambda e: e.get_orientation(node))
+        # edges ... summarizes edges with a very small angle to eachother. Angle: incomming and outgoing direction is the same with nearly the same orientation.
+        # Incomming direction is point at node. Outgoing direction is pointing from the node.
         edges = find_edges_to_combine(edges, node)
         nr_of_edges = len(edges)
         # link edges with each other as incoming and outgoing (in, out node)
